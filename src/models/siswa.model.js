@@ -18,14 +18,21 @@ exports.findById = async (id) => {
 exports.create = async (data) => {
   const { id, nama, nis, kode_kelas } = data
 
+  const [kelasRows] = await db.query(
+    'SELECT kode_kelas FROM kelas WHERE kode_kelas = ? AND deleted_at IS NULL',
+    [kode_kelas]
+  )
+
+  if (!kelasRows.length) {
+    throw new Error('Kelas tidak ditemukan')
+  }
+
   await db.query(
     'INSERT INTO siswa (id, nama, nis, kode_kelas) VALUES (?, ?, ?, ?)',
     [id, nama, nis, kode_kelas]
   )
 }
 
-// BUG: kolom salah nama (harusnya kode_kelas)
-// todo: siswa harus validasi kelas exist
 exports.findByKelas = async (kodeKelas) => {
   const [rows] = await db.query(
     'SELECT * FROM siswa WHERE kelas_kode = ?',

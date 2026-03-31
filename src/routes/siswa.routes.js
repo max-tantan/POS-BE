@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const siswaModel = require('../models/siswa.model')
+const siswaController = require('../controllers/siswa.controller')
 const authMiddleware = require('../middlewares/auth.middleware')
 
 router.get('/', authMiddleware, async (req, res) => {
@@ -15,10 +16,6 @@ router.get('/detail/:kode', authMiddleware, async (req, res) => {
   res.json(data)
 })
 
-// todo: pindahkan ke controller & service layer
-router.post('/', authMiddleware, async (req, res) => {
-  await siswaModel.create(req.body)
-  res.json({ message: 'Siswa created' })
-})
+router.post('/', authMiddleware, siswaController.create)
 
 module.exports = router
