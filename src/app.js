@@ -16,10 +16,10 @@ app.get('/', (req, res) => {
 const userRoutes = require('./routes/user.routes')
 app.use('/users', userRoutes)
 
-const kelasRouter = require('./routes/kelas.routes')
+const kelasRoutes = require('./routes/kelas.routes')
 app.use('/kelas', kelasRoutes)
 
-const siswaRouter = require('./routes/siswa.routes')
+const siswaRoutes = require('./routes/siswa.routes')
 app.use('/siswa', siswaRoutes)
 
 app.use((err, req, res, next) => {

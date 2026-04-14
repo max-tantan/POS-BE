@@ -2,14 +2,14 @@ const db = require('../config/db')
 
 exports.findAll = async () => {
   const [rows] = await db.query(
-    'SELECT kode_kelas, nama_kelas, created_at, updated_at FROM kelas WHERE deleted_at IS NULL'
+    'SELECT kode_kelas, nama_kelas, created_at, updated_at FROM kelas WHERE deleted_at IS NULL or deleted_at = "0000-00-00 00:00:00"'
   )
   return rows
 }
 
 exports.findById = async (kode_kelas) => {
   const [rows] = await db.query(
-    'SELECT kode_kelas, nama_kelas FROM kelas WHERE kode_kelas = ? AND deleted_at IS NULL',
+    'SELECT kode_kelas, nama_kelas FROM kelas WHERE kode_kelas = ? AND deleted_at IS NULL or deleted_at = "0000-00-00 00:00:00"',
     [kode_kelas]
   )
   return rows[0]
