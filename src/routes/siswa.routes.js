@@ -11,7 +11,7 @@ router.get('/', authMiddleware, async (req, res) => {
 })
 
 // BUG: param salah (harusnya :id)
-router.get('/detail/:kode', authMiddleware, async (req, res) => {
+router.get('/detail/:id', authMiddleware, async (req, res) => {
   const data = await siswaModel.findById(req.params.id)
   res.json(data)
 })
