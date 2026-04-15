@@ -18,3 +18,31 @@ exports.create = async (data) => {
     throw error
   }
 }
+
+exports.update = async (id, data) => {
+  const siswa = await siswaModel.findById(id)
+  if (!siswa) {
+    const error = new Error('Siswa tidak ditemukan')
+    error.statusCode = 404
+    throw error
+  }
+
+  const updateData = {
+    nama: data.nama || siswa.nama,
+    nis: data.nis || siswa.nis,
+    kode_kelas: data.kode_kelas || siswa.kode_kelas
+  }
+
+  await siswaModel.update(id, updateData)
+}
+
+exports.delete = async (id) => {
+  const siswa = await siswaModel.findById(id)
+  if (!siswa) {
+    const error = new Error('Siswa tidak ditemukan')
+    error.statusCode = 404
+    throw error
+  }
+
+  await siswaModel.delete(id)
+}

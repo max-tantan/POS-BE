@@ -10,12 +10,16 @@ router.get('/', authMiddleware, async (req, res) => {
   res.json(data)
 })
 
-// BUG: param salah (harusnya :id)
+
 router.get('/detail/:id', authMiddleware, async (req, res) => {
   const data = await siswaModel.findById(req.params.id)
   res.json(data)
 })
 
 router.post('/', authMiddleware, siswaController.create)
+
+router.put('/:id', authMiddleware, siswaController.update)
+
+router.delete('/:id', authMiddleware, siswaController.delete)
 
 module.exports = router
