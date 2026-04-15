@@ -7,7 +7,7 @@ const authMiddleware = require('../middlewares/auth.middleware')
 router.get('/', authMiddleware, kelasController.getAll)
 router.get('/:kode_kelas', authMiddleware, kelasController.getById)
 router.post('/', authMiddleware, kelasController.create)
-router.put('/:kode_kelas', authMiddleware, kelasController.update)
-router.delete('/:kode_kelas', authMiddleware, kelasController.delete)
+router.put('/:id', authMiddleware, kelasController.update)
+router.delete('/:id', authMiddleware, kelasController.delete)
 
 module.exports = router

@@ -33,18 +33,27 @@ exports.update = async (kode_kelas, data) => {
   const kelas = await kelasModel.findById(kode_kelas)
 
   if (!kelas) {
-    throw new AppError('KELAS_NOT_FOUND', 404)
+    const error = new Error("Kelas tidak ditemukan")
+    error.statusCode = 404
+    throw error
   }
 
-  await kelasModel.update(kode_kelas, data)
+  const updateData = {
+    kode_kelas: data.kode_kelas || kelas.kode_kelas,
+    nama_kelas: data.nama_kelas || kelas.nama_kelas
+  }
+
+  await kelasModel.update(kode_kelas, updateData)
 }
 
 exports.delete = async (kode_kelas) => {
   const kelas = await kelasModel.findById(kode_kelas)
 
   if (!kelas) {
-    throw new AppError('KELAS_NOT_FOUND', 404)
+    const error = new Error("Kelas tidak ditemukan")
+    error.statusCode = 404
+    throw error
   }
 
-  await kelasModel.softDelete(kode_kelas)
+  await kelasModel.delete(kode_kelas)
 }

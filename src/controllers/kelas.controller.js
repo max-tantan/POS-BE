@@ -13,15 +13,15 @@ exports.getById = asyncHandler(async (req, res) => {
 
 exports.create = asyncHandler(async (req, res) => {
   await kelasService.create(req.body)
-  res.status(201).json({ message: 'Kelas created' })
+  res.status(201).json({ message: 'Kelas dibuat' })
 })
 
 exports.update = asyncHandler(async (req, res) => {
-  await kelasService.update(req.params.kode_kelas, req.body)
-  res.json({ message: 'Kelas updated' })
+  await kelasService.update(req.params.id, req.body)
+  res.json({ message: 'Kelas diperbarui' })
 })
 
 exports.delete = asyncHandler(async (req, res) => {
-  await kelasService.delete(req.params.kode_kelas)
-  res.json({ message: 'Kelas deleted' })
+  await kelasService.delete(req.params.id)
+  res.json({ message: 'Kelas dihapus' })
 })
