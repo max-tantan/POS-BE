@@ -6,6 +6,7 @@
 
   exports.seed = async function (knex) {
     const hashedPassword = await hash('1', 10)
+    await knex('users').del();
     await knex('users').insert([
       {
         id: "10000000-0000-0000-0000-000000000001",
