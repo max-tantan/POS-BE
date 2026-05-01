@@ -6,3 +6,8 @@ exports.create = async (data) => {
         [data.id, data.nama_pelanggan, data.produk_id, data.jumlah, data.total_harga, data.status_pesanan]
     );
 };
+
+exports.getAll = async () => {
+    const [rows] = await db.query('SELECT * FROM orders ORDER BY created_at DESC')
+    return rows;
+}
