@@ -1,5 +1,6 @@
 
 exports.seed = async function (knex) {
+  await knex('kelas').del();
   await knex('kelas').insert([
     { kode_kelas: "X-PPLG-1", nama_kelas: 'X PPLG 1',},
     { kode_kelas: "X-PPLG-2", nama_kelas: 'X PPLG 2',},

@@ -1,6 +1,8 @@
 const express = require('express')
+const cors = require('cors')
 const app = express()
 
+app.use(cors())
 app.use(express.json())
 
 // ROUTER
@@ -13,17 +15,20 @@ app.get('/', (req, res) => {
   res.send('Hello Express')
 })
 
-const userRoutes = require('./routes/user.routes')
+const userRoutes = require ('./routes/user.routes')
 app.use('/users', userRoutes)
 
-const kelasRoutes = require('./routes/kelas.routes')
+const kelasRoutes = require ('./routes/kelas.routes')
 app.use('/kelas', kelasRoutes)
 
-const siswaRoutes = require('./routes/siswa.routes')
+const siswaRoutes = require ('./routes/siswa.routes')
 app.use('/siswa', siswaRoutes)
 
 const produkRoutes = require ('./routes/produk.routes')
 app.use('/produk', produkRoutes)
+
+const orderRoutes = require ('./routes/order.routes')
+app.use('/orders', orderRoutes)
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
