@@ -30,6 +30,9 @@ app.use('/produk', produkRoutes)
 const orderRoutes = require ('./routes/order.routes')
 app.use('/orders', orderRoutes)
 
+const dashboardRoutes = require('./routes/dashboard.routes');
+app.use('/dashboard', dashboardRoutes);
+
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || 'Internal Server Error';
