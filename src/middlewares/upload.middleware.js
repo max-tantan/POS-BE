@@ -1,8 +1,8 @@
-const multer = require('multer')
-const path = require('path')
+const multer = require('multer');
+const path = require('path');
 
 // Mengatur tempat pemyimpanan dan nama file
-const storage = multer.diskStorage({
+const storage = multer.memoryStorage({
     destination: function(req, file, cb) {
         // Arahkan ke folder publis/uploads yang sudah ada
         cb(null, 'public/uploads')
@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
         const uniqueSuffix = Date.now() + '_' + Math.round(Math.random() * 1E9)
         cb(null, uniqueSuffix + path.extname(file.originalname))
     }
-})
+});
 
 // Membuat filter (supaya hanya menerima gambar saja)
 const fileFilter = (req, file, cb) => {
@@ -31,9 +31,9 @@ const fileFilter = (req, file, cb) => {
 
 // Membungkus pengaturan multer
 const upload = multer({
-    storage: storage,
+    storage: multer.memoryStorage(),
     limits: { fileSize: 5 * 1024 * 1024 }, // Batas ukuran file 5MB
     fileFilter: fileFilter
-})
+});
 
 module.exports = upload
