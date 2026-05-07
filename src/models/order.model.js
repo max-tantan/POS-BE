@@ -8,6 +8,18 @@ exports.create = async (data) => {
 };
 
 exports.getAll = async () => {
-    const [rows] = await db.query('SELECT * FROM orders ORDER BY created_at DESC')
+    const [rows] = await db.query(`
+        SELECT
+            orders.id,
+            orders.nama_pelanggan,
+            produk.nama_produk,
+            orders.jumlah,
+            orders.total_harga,
+            orders.status_pesanan,
+            orders.created_at
+        FROM orders
+        JOIN produk ON orders.produk_id = produk.id
+        ORDER BY orders.created_at DESC
+        `);
     return rows;
 }
