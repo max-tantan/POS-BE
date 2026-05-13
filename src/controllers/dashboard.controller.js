@@ -10,13 +10,13 @@ exports.getChartData = async (req, res, next) => {
 
 
         res.status(200).json({
-             status: 'succes',
-             message: 'Berhasil mengambil data untuk chart dashboard',
-             data: {
+            status: 'succes',
+            message: 'Berhasil mengambil data untuk chart dashboard',
+            data: {
                 chart_harian: dailyOrders,
                 chart_status: statusCount
-             }
-         });    
+            }
+        });
 } catch (error) {
     next(error);
 }
@@ -27,7 +27,7 @@ exports.getSummaryData = async (req, res, next) => {
     try {
         const [summary, recentOrders] = await Promise.all ([
             dashboardModel.getSummary(),
-            dashboardModel.getRecentOrders
+            dashboardModel.getRecentOrders()
         ]);
 
         res.status(200).json({
@@ -35,7 +35,7 @@ exports.getSummaryData = async (req, res, next) => {
             message: 'Berhasil Mengambil data ringkasan dashboard',
             data: {
                 ringkasan: summary,
-                order_terbary: recentOrders
+                order_terbaru: recentOrders
             }
         });
     } catch (error) {
