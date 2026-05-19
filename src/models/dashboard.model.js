@@ -21,7 +21,7 @@ exports.getOrdersStatusCount = async () => {
     return rows;
 };
 
-// --- KODINGAN AHMAD ---
+// --- CODINGAN AHMAD ---
 // Checklist 1 & Tugas Omzet Awal: Data Ringkasan Dashboard
 exports.getSummary = async () => {
     // 1. Menghitung Total Orderan
