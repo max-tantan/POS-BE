@@ -1,5 +1,5 @@
 const orderModel = require('../models/order.model');
-const crypto = require('crypto');1
+const crypto = require('crypto');
 
 exports.createData = async (data) => {
     // Memvalidasi supaya data yang masuk tidak kosong
