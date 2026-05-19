@@ -1,4 +1,4 @@
-require('dotenv').config()
+gittrequire('dotenv').config()
 const db = require('./config/db')
 
 async function test() {
