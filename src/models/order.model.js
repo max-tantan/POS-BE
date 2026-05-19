@@ -23,3 +23,16 @@ exports.getAll = async () => {
         `);
     return rows;
 }
+
+exports.update = async (id, data) => {
+    await db.query (
+        `UPDATE orders SET nama_pelanggan = ?, produk_id = ?, jumlah = ?, total_harga = ?, WHERE ID = ?`,
+        [data.nama_pelanggan, data.produk_id, data.jumlah, data.total_harga, id]
+    );
+};
+
+exports.delete = async (id) => {
+    await db.query (
+        `DELETE FROM orders WHERE ID = ?`, [id]
+    );
+}
