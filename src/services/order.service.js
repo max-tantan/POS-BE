@@ -24,7 +24,7 @@ exports.createData = async (data) => {
     return newOrder;
 }
 
-exports.updateOrder = async (id, data) => {
+exports.updateOrderData = async (id, data) => {
     if (!data.nama_pelanggan || !data.produk_id || !data.jumlah || !data.total_harga) {
         const error = new Error('Data update order tidak lengkap');
         error.status = 400;
@@ -34,7 +34,7 @@ exports.updateOrder = async (id, data) => {
     return { id, ...data };
 }
 
-exports.deleteOrder = async (id) => {
+exports.deleteOrderData = async (id) => {
     await orderModel.delete(id);
     return true;
 }
