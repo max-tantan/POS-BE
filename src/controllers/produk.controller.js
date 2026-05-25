@@ -41,3 +41,19 @@ exports.createProduk = async (req, res) => {
         });
     };
 }
+
+exports.getProduk = async (req, res) => {
+    try {
+        const produkModel = require('../models/produk.model');
+        const produk = await produkModel.getAll();
+        res.status(200).json({
+            status: 'success',
+            data: produk
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 'error',
+            message: error.message || 'Terjadi kesalahan pada server'
+        });
+    }
+}

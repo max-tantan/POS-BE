@@ -3,7 +3,7 @@ const db = require('../config/db')
 // Untuk mengambil semua produk yang belum dihapus
 exports.getAll = async () => {
     const [rows] = await db.query(
-        'SELECT * FROM produk WHERE deleted_at = "0000-00-00 00:00:00"'
+        'SELECT * FROM produk WHERE deleted_at IS NULL OR deleted_at = "0000-00-00 00:00:00"'
     )
     return rows
 }
@@ -11,7 +11,7 @@ exports.getAll = async () => {
 // Mencari produk  berdasarkan nama
 exports.getByName = async (nama_produk) => {
     const [rows] = await db.query(
-        'SELECT * FROM produk WHERE nama_produk = ? AND deleted_at = "0000-00-00 00:00:00"', [nama_produk]
+        'SELECT * FROM produk WHERE nama_produk = ? AND (deleted_at IS NULL OR deleted_at = "0000-00-00 00:00:00")', [nama_produk]
     )
     return rows[0]
 }

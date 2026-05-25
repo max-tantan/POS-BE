@@ -7,5 +7,6 @@ const upload = require ('../middlewares/upload.middleware');
 
 // Gunakan upload.single('foto produk') untuk menerima 1 file gambar
 router.post('/', authMiddleware, upload.single('foto_produk'), produkController.createProduk);
+router.get('/', authMiddleware, produkController.getProduk);
 
 module.exports = router;

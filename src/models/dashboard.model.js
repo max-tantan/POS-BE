@@ -3,7 +3,7 @@ const db = require('../config/db');
 // --- KODINGAN APRILIA (Diperbaiki Typo SQL-nya) ---
 exports.getDailyOrders = async () => {
     const [rows] = await db.query(`
-        SELECT DATE(created_at) as tanggal, COUNT(id) as total_order
+        SELECT DATE(created_at) as tanggal, COUNT(id) as total_order, SUM(total_harga) as amount
         FROM orders
         GROUP BY DATE(created_at)
         ORDER BY tanggal DESC
@@ -27,6 +27,16 @@ exports.getSummary = async () => {
     // 1. Menghitung Total Orderan
     const [rowsTotal] = await db.query('SELECT COUNT(id) as total FROM orders');
     const totalOrderan = rowsTotal[0].total || 0;
+    
+    // Top Menus
+    const [topMenus] = await db.query(`
+        SELECT produk.nama_produk as name, COUNT(orders.id) as sold 
+        FROM orders 
+        JOIN produk ON orders.produk_id = produk.id 
+        GROUP BY produk.id 
+        ORDER BY sold DESC 
+        LIMIT 5
+    `);
     
     // 2. Menghitung Omzet Hari Ini
     const [rowsOmzet] = await db.query('SELECT SUM(total_harga) as omzet FROM orders WHERE DATE(created_at) = CURDATE()');
@@ -52,14 +62,15 @@ exports.getSummary = async () => {
         total_order: totalOrderan,
         omzet_harian: Number(omzetHarian),
         persentase_selesai: persentase,
-        rata_rata_orderan: Math.round(Number(rataRataOrderan))
+        rata_rata_orderan: Math.round(Number(rataRataOrderan)),
+        top_menus: topMenus
     };
 };
 
 // Checklist 4: Tabel Order Terbaru (Dikembalikan lagi kodingannya)
 exports.getRecentOrders = async () => {
     const [rows] = await db.query(`
-        SELECT orders.id, orders.nama_pelanggan, produk.nama_produk as barang, orders.status_pesanan
+        SELECT orders.id, orders.nama_pelanggan, produk.nama_produk as barang, orders.status_pesanan, orders.total_harga as total
         FROM orders
         JOIN produk ON orders.produk_id = produk.id
         ORDER BY orders.created_at DESC
