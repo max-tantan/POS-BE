@@ -25,7 +25,12 @@ exports.getAll = async () => {
 }
 
 exports.update = async (id, data) => {
-    if (data.status_pesanan) {
+    if (data.status_pesanan && !data.nama_pelanggan) {
+        await db.query (
+            `UPDATE orders SET status_pesanan = ? WHERE id = ?`,
+            [data.status_pesanan, id]
+        );
+    } else if (data.status_pesanan) {
         await db.query (
             `UPDATE orders SET nama_pelanggan = ?, produk_id = ?, jumlah = ?, total_harga = ?, status_pesanan = ? WHERE id = ?`,
             [data.nama_pelanggan, data.produk_id, data.jumlah, data.total_harga, data.status_pesanan, id]
@@ -35,7 +40,7 @@ exports.update = async (id, data) => {
             `UPDATE orders SET nama_pelanggan = ?, produk_id = ?, jumlah = ?, total_harga = ? WHERE id = ?`,
             [data.nama_pelanggan, data.produk_id, data.jumlah, data.total_harga, id]
         );
-    }
+    };
 };
 
 exports.delete = async (id) => {

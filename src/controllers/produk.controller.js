@@ -10,6 +10,11 @@ exports.createProduk = async (req, res) => {
             //  BIkin nama file unik dengan ekstensi .webp
             const uniqueSuffix = Date.now() + '_' + Math.round(Math.random() * 1E9);
             const namaFileBaru = uniqueSuffix + '.webp';
+
+            const folderUpload = path.join(process.cwd(), 'public/uploads')
+            if (!fs.existsSync(folderUpload)) {
+                fs.mkdirSync(folderUpload, {recursive: true});
+            };
             
             // Menentukan lokasi disimpan ke folder public/uploads
             const lokasiSimpan = path.join(process.cwd(), 'public/uploads', namaFileBaru);
@@ -34,9 +39,10 @@ exports.createProduk = async (req, res) => {
             data: produk
         });
     } catch (error) {
-        res.status(error.status || 500).json({
+        const status = error.statusCode || error.status || 500;
+        res.status(status).json({
             status: 'error',
-            statusCode: error.statusCode || 500,
+            statusCode: status || 500,
             message: error.message || 'Terjadi kesalahan pada server'
         });
     };

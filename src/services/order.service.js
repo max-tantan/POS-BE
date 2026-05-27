@@ -25,10 +25,14 @@ exports.createData = async (data) => {
 }
 
 exports.updateOrderData = async (id, data) => {
-    if (!data.nama_pelanggan || !data.produk_id || !data.jumlah || !data.total_harga) {
-        const error = new Error('Data update order tidak lengkap');
-        error.status = 400;
-        throw error;
+    const isHanyaUpdateStatus = Object.keys(data).length === 1 && data.status_pesanan;
+
+    if (!isHanyaUpdateStatus) {
+        if (!data.nama_pelanggan || !data.produk_id || !data.jumlah || !data.total_harga) {
+            const error = new Error('Data update order tidak lengkap');
+            error.status = 400;
+            throw error;
+        }
     }
     await orderModel.update(id, data);
     return { id, ...data };
