@@ -30,9 +30,9 @@ exports.getSummary = async () => {
     
     // Top Menus
     const [topMenus] = await db.query(`
-        SELECT produk.nama_produk as name, COUNT(orders.id) as sold 
-        FROM orders 
-        JOIN produk ON orders.produk_id = produk.id 
+        SELECT produk.nama_produk as name, SUM(order_items.jumlah) as sold 
+        FROM order_items 
+        JOIN produk ON order_items.produk_id = produk.id 
         GROUP BY produk.id 
         ORDER BY sold DESC 
         LIMIT 5
@@ -70,9 +70,11 @@ exports.getSummary = async () => {
 // Checklist 4: Tabel Order Terbaru (Dikembalikan lagi kodingannya)
 exports.getRecentOrders = async () => {
     const [rows] = await db.query(`
-        SELECT orders.id, orders.nama_pelanggan, produk.nama_produk as barang, orders.status_pesanan, orders.total_harga as total
+        SELECT orders.id, orders.nama_pelanggan, GROUP_CONCAT(CONCAT(produk.nama_produk, ' x', order_items.jumlah) SEPARATOR ', ') as barang, orders.status_pesanan, orders.total_harga as total
         FROM orders
-        JOIN produk ON orders.produk_id = produk.id
+        JOIN order_items ON orders.id = order_items.order_id
+        JOIN produk ON order_items.produk_id = produk.id
+        GROUP BY orders.id
         ORDER BY orders.created_at DESC
         LIMIT 5
     `);

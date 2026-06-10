@@ -35,3 +35,32 @@ exports.createData = async (data, file) => {
     await produkModel.create(newData);
     return newData;
 }
+
+exports.updateData = async (id, data, file) => {
+    if (!id) {
+        const error = new Error('ID produk harus disertakan');
+        error.statusCode = 400;
+        throw error;
+    }
+
+    if (!data.nama_produk || !data.harga_produk || !data.jenis_produk) {
+        const error = new Error('INVALID_PAYLOAD');
+        error.statusCode = 400;
+        throw error;
+    }
+
+    const foto_produk = file ? file.filename : null;
+
+    const updatePayload = {
+        nama_produk: data.nama_produk,
+        harga_produk: data.harga_produk,
+        jenis_produk: data.jenis_produk,
+    };
+
+    if (foto_produk) {
+        updatePayload.foto_produk = foto_produk;
+    }
+
+    await produkModel.update(id, updatePayload);
+    return { id, ...updatePayload };
+}
