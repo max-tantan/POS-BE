@@ -25,3 +25,32 @@ exports.getOrder = async (req, res, next) => {
         next(error)
     }
 }
+
+exports.updateOrder = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const updateOrder = await orderService.updateOrderData(id, req.body);
+
+        res.status(200).json({
+            status: 'Success',
+            message: 'Berhasil mengubah data pesanan',
+            data: updateOrder
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.deleteOrder = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        await orderService.deleteOrderData(id);
+
+        res.status(200).json({
+            status: 'Success',
+            message: 'Berhasil menghapus data pesanan'
+        });
+    } catch (error) {
+        next(error);
+        }
+};
