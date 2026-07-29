@@ -3,17 +3,16 @@ const crypto = require('crypto');
 
 exports.createData = async (data) => {
     // Memvalidasi supaya data yang masuk tidak kosong
-    if (!data.nama_pelanggan || !data.produk_id || !data.jumlah || !data.total_harga) {
+    if (!data.nama_pelanggan || !data.items || data.items.length === 0 || !data.total_harga) {
         const error = new Error('Data order tidak lengkap');
         error.status = 400;
         throw error;
-    };
+    }
 
     const newOrder = {
         id: crypto.randomUUID(),
         nama_pelanggan: data.nama_pelanggan,
-        produk_id: data.produk_id,
-        jumlah: data.jumlah,
+        items: data.items,
         total_harga: data.total_harga,
         status_pesanan: "Proses"
     }
@@ -22,4 +21,20 @@ exports.createData = async (data) => {
     await orderModel.create(newOrder);
 
     return newOrder;
+}
+
+exports.updateOrderData = async (id, data) => {
+    // Note: status_pesanan update doesn't require items if it's just a status change
+    if (!data.nama_pelanggan || !data.total_harga) {
+        const error = new Error('Data update order tidak lengkap');
+        error.status = 400;
+        throw error;
+    }
+    await orderModel.update(id, data);
+    return { id, ...data };
+}
+
+exports.deleteOrderData = async (id) => {
+    await orderModel.delete(id);
+    return true;
 }
